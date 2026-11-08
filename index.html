@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Endorfit · Primeiros passos</title>
+<link rel="icon" href="logo-gefit.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --azul:#002E82;--azul2:#0A4FAA;--verde:#B3F400;--verde-t:#4A6B00;
+  --bg:#F4F6FB;--card:#fff;--tx:#0B1530;--tm:#4A5672;--td:#7D88A3;--bd:#E2E8F3;
+  --ok:#1E8E4F;--ok-d:#E7F6EE;--er:#C62828;--am:#B26A00;--am-d:#FFF4E0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:'Barlow',Arial,sans-serif;font-size:15px;line-height:1.5}
+.top{background:var(--azul);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:20}
+.top .marca{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:22px;letter-spacing:.5px}
+.top .marca small{display:block;font-family:'Barlow',sans-serif;font-weight:500;font-size:12px;opacity:.75;letter-spacing:0}
+.top .esp{flex:1}
+.top .quem{font-size:13px;opacity:.85}
+.top button{background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:8px;padding:6px 12px;font:600 13px 'Barlow',sans-serif;cursor:pointer}
+.wrap{max-width:860px;margin:0 auto;padding:22px 16px 80px}
+.hero{background:linear-gradient(135deg,var(--azul),var(--azul2));color:#fff;border-radius:16px;padding:24px 22px;margin-bottom:18px}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;line-height:1.1;margin-bottom:6px}
+.hero p{opacity:.9;font-size:15px}
+.prog{display:flex;align-items:center;gap:10px;margin-top:16px}
+.prog .barra{flex:1;height:8px;background:rgba(255,255,255,.2);border-radius:99px;overflow:hidden}
+.prog .barra i{display:block;height:100%;background:var(--verde);width:0;transition:width .3s}
+.prog b{font-size:13px;min-width:44px;text-align:right}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px;padding-bottom:4px}
+.tab{background:#fff;border:1px solid var(--bd);border-radius:999px;padding:8px 14px;font:700 13.5px 'Barlow',sans-serif;color:var(--tm);cursor:pointer;white-space:nowrap}
+.tab.on{background:var(--azul);border-color:var(--azul);color:#fff}
+.tab .ok{color:var(--ok);margin-left:4px}.tab.on .ok{color:var(--verde)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:14px}
+.card h2{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--azul);margin-bottom:4px}
+.card .sub{color:var(--tm);font-size:14px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}
+.grid .full{grid-column:1/-1}
+@media(max-width:640px){.grid{grid-template-columns:1fr}.hero h1{font-size:25px}}
+label{display:block;font-size:12px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+input,select,textarea{width:100%;border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font:15px 'Barlow',sans-serif;color:var(--tx);background:#FBFCFE}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--azul2);background:#fff}
+textarea{min-height:84px;resize:vertical}
+.dica{font-size:12.5px;color:var(--td);margin-top:4px}
+.aviso{background:var(--am-d);border:1px solid #F3D9A6;color:#6B4300;border-radius:10px;padding:11px 13px;font-size:13.5px;margin-bottom:14px}
+.btn{background:var(--azul);color:#fff;border:0;border-radius:10px;padding:11px 18px;font:700 15px 'Barlow',sans-serif;cursor:pointer}
+.btn.verde{background:var(--verde);color:#0B1530}
+.btn.claro{background:#fff;color:var(--azul);border:1px solid var(--bd)}
+.btn:disabled{opacity:.5;cursor:default}
+.linha-btn{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}
+.salvo{font-size:13px;color:var(--td)}
+.mat{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:10px}
+.mat .ic{font-size:26px;line-height:1}
+.mat .tx{flex:1}
+.mat b{display:block;font-size:15.5px}
+.mat .tx span{font-size:13.5px;color:var(--tm)}
+.mat .acoes{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.mat a{background:var(--azul);color:#fff;text-decoration:none;border-radius:8px;padding:7px 12px;font-weight:700;font-size:13px;white-space:nowrap}
+.chk{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--tm);cursor:pointer;white-space:nowrap;text-transform:none;letter-spacing:0;margin:0}
+@media(max-width:640px){.mat{flex-wrap:wrap}.mat .acoes{width:100%;flex-direction:row;justify-content:space-between;align-items:center;padding-left:38px}}
+.chk input{width:17px;height:17px;accent-color:var(--ok)}
+.reu{border-left:3px solid var(--azul2);padding:4px 0 4px 14px;margin-bottom:16px}
+.reu .dt{font-size:12.5px;color:var(--td);font-weight:700;text-transform:uppercase}
+.reu b{font-size:16px}
+.reu p{white-space:pre-wrap;color:var(--tm);font-size:14.5px;margin-top:4px}
+.tar{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--bd)}
+.tar:last-child{border-bottom:0}
+.tar input{width:20px;height:20px;margin-top:2px;accent-color:var(--ok);flex-shrink:0}
+.tar .t{flex:1}
+.tar .t b{font-size:15px}
+.tar.feita .t b{text-decoration:line-through;color:var(--td)}
+.tar .t span{display:block;font-size:13px;color:var(--tm)}
+.tar .t span.tag{display:inline-block;font-size:11.5px}
+.tag{display:inline-block;font-size:11.5px;font-weight:700;border-radius:99px;padding:2px 8px;margin-left:6px}
+.tag.atr{background:#FDECEC;color:var(--er)}.tag.ok{background:var(--ok-d);color:var(--ok)}.tag.pz{background:#EEF2F8;color:var(--tm)}
+.vazio{color:var(--td);font-size:14px;padding:6px 0}
+.admin{border:2px dashed #C9D3E6;background:#FAFBFE}
+.login{max-width:400px;margin:8vh auto;background:#fff;border:1px solid var(--bd);border-radius:16px;padding:28px 24px}
+.login h1{font-family:'Barlow Condensed',sans-serif;font-size:28px;color:var(--azul);margin-bottom:4px}
+.login p{color:var(--tm);font-size:14px;margin-bottom:18px}
+.login .fg{margin-bottom:12px}
+.erro{color:var(--er);font-size:13.5px;margin-top:8px;min-height:18px}
+.rod{text-align:center;color:var(--td);font-size:12.5px;margin-top:26px;display:flex;align-items:center;justify-content:center;gap:8px}
+.rod img{height:18px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#0B1530;color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;display:none;z-index:50}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="tela-login" class="wrap" hidden>
+  <div class="login">
+    <h1>Endorfit · Primeiros passos</h1>
+    <p>Projeto piloto com a Metodologia GeFit. Entre com o e-mail e a senha que você recebeu.</p>
+    <div class="fg"><label for="l-email">E-mail</label><input id="l-email" type="email" autocomplete="username"></div>
+    <div class="fg"><label for="l-senha">Senha</label><input id="l-senha" type="password" autocomplete="current-password"></div>
+    <button class="btn" style="width:100%" id="btn-entrar" onclick="entrar()">Entrar</button>
+    <div class="erro" id="l-erro"></div>
+  </div>
+  <div class="rod">Metodologia <img src="logo-gefit.png" alt="GeFit"></div>
+</div>
+
+<!-- APP -->
+<div id="tela-app" hidden>
+  <div class="top">
+    <div class="marca">ENDORFIT<small>Projeto piloto · Metodologia GeFit</small></div>
+    <div class="esp"></div>
+    <div class="quem" id="quem"></div>
+    <button onclick="sair()">Sair</button>
+  </div>
+  <div class="wrap">
+    <div class="hero">
+      <h1 id="ola">Bem-vinda!</h1>
+      <p>Aqui começa a construção da sua plataforma. Preencha os dados da Endorfit, envie seus materiais e acompanhe as nossas reuniões e tarefas. Tudo fica salvo automaticamente.</p>
+      <div class="prog"><div class="barra"><i id="prog-barra"></i></div><b id="prog-txt">0%</b></div>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-t="empresa">🏢 Empresa</button>
+      <button class="tab" data-t="responsavel">👤 Responsável</button>
+      <button class="tab" data-t="redes">📣 Redes e anúncios</button>
+      <button class="tab" data-t="materiais">📎 Materiais</button>
+      <button class="tab" data-t="reunioes">🗓️ Reuniões e tarefas</button>
+    </div>
+
+    <!-- EMPRESA -->
+    <section class="card" data-p="empresa">
+      <h2>Dados da empresa</h2>
+      <div class="sub">As informações que aparecem no contrato, na nota fiscal e nos seus materiais.</div>
+      <div class="grid">
+        <div><label>Nome fantasia</label><input data-c="nome_fantasia" placeholder="Endorfit"></div>
+        <div><label>Razão social</label><input data-c="razao_social"></div>
+        <div><label>CNPJ</label><input data-c="cnpj" inputmode="numeric" placeholder="00.000.000/0000-00" oninput="mascaraCNPJ(this)"><div class="dica" id="cnpj-dica"></div></div>
+        <div><label>Data de fundação</label><input data-c="fundacao" type="date"></div>
+        <div class="full"><label>Endereço completo</label><input data-c="endereco" placeholder="Rua, número, bairro"></div>
+        <div><label>Cidade / UF</label><input data-c="cidade"></div>
+        <div><label>CEP</label><input data-c="cep" inputmode="numeric"></div>
+        <div><label>WhatsApp da recepção</label><input data-c="whatsapp_recepcao" inputmode="tel" placeholder="(00) 00000-0000"></div>
+        <div><label>E-mail da academia</label><input data-c="email_academia" type="email"></div>
+        <div><label>Site</label><input data-c="site" placeholder="www."></div>
+        <div><label>Horário de funcionamento</label><input data-c="horario" placeholder="Seg a sex 6h às 22h, sáb 8h às 12h"></div>
+        <div><label>Alunos ativos hoje (aprox.)</label><input data-c="alunos_ativos" inputmode="numeric"></div>
+        <div><label>Tamanho da academia (m²)</label><input data-c="area_m2" inputmode="numeric"></div>
+        <div class="full"><label>Modalidades e serviços</label><textarea data-c="modalidades" placeholder="Musculação, funcional, avaliação física, personal..."></textarea></div>
+      </div>
+    </section>
+
+    <!-- RESPONSÁVEL -->
+    <section class="card" data-p="responsavel" hidden>
+      <h2>Responsável pelo projeto</h2>
+      <div class="sub">Quem vai tomar as decisões e acompanhar as reuniões com a GeFit.</div>
+      <div class="grid">
+        <div><label>Nome completo</label><input data-c="resp_nome"></div>
+        <div><label>Cargo</label><input data-c="resp_cargo" placeholder="Proprietária, gestora..."></div>
+        <div><label>WhatsApp</label><input data-c="resp_whatsapp" inputmode="tel"></div>
+        <div><label>E-mail</label><input data-c="resp_email" type="email"></div>
+        <div><label>Instagram pessoal</label><input data-c="resp_instagram" placeholder="@"></div>
+        <div><label>Melhor horário para reuniões</label><input data-c="resp_horario" placeholder="Ex.: terças à tarde"></div>
+        <div class="full"><label>Outras pessoas da equipe que vão participar</label><textarea data-c="equipe_projeto" placeholder="Nome, função e WhatsApp de cada uma"></textarea></div>
+      </div>
+    </section>
+
+    <!-- REDES E ANÚNCIOS -->
+    <section class="card" data-p="redes" hidden>
+      <h2>Redes sociais e anúncios</h2>
+      <div class="sub">Com isso a GeFit monta a estrutura do seu tráfego pago.</div>
+      <div class="aviso">🔒 <b>Nunca escreva senhas aqui.</b> Para acessar as suas contas de anúncio, a GeFit envia um <b>convite de parceiro</b> e você só aprova. Seus dados continuam seus.</div>
+      <div class="grid">
+        <div><label>Instagram da Endorfit</label><input data-c="instagram" placeholder="@endorfit"></div>
+        <div><label>Página do Facebook</label><input data-c="facebook" placeholder="link ou nome da página"></div>
+        <div><label>Google Meu Negócio (perfil no Google Maps)</label><select data-c="google_negocio"><option value="">Selecione</option><option>Tenho</option><option>Não tenho</option><option>Não sei</option></select></div>
+        <div><label>TikTok / YouTube</label><input data-c="outras_redes" placeholder="@"></div>
+        <div><label>Tem Gerenciador de Anúncios (Meta)?</label><select data-c="tem_gerenciador"><option value="">Selecione</option><option>Tenho e uso</option><option>Tenho, mas não uso</option><option>Não tenho</option><option>Não sei</option></select></div>
+        <div><label>Tem Meta Business Suite (Gerenciador de Negócios)?</label><select data-c="tem_business"><option value="">Selecione</option><option>Tenho</option><option>Não tenho</option><option>Não sei</option></select></div>
+        <div><label>ID da conta de anúncios (se souber)</label><input data-c="id_conta_anuncios" inputmode="numeric" placeholder="Só números"><div class="dica">Fica em Gerenciador de Anúncios, no canto de cima, ao lado do nome da conta.</div></div>
+        <div><label>ID do Gerenciador de Negócios (se souber)</label><input data-c="id_business" inputmode="numeric" placeholder="Só números"><div class="dica">Em business.facebook.com, Configurações, Informações do negócio.</div></div>
+        <div><label>Já investe em anúncios?</label><select data-c="investe_anuncios"><option value="">Selecione</option><option>Sim, todo mês</option><option>Às vezes (impulsionar)</option><option>Nunca investi</option></select></div>
+        <div><label>Quanto investe por mês hoje (R$)</label><input data-c="verba_atual" inputmode="decimal"></div>
+        <div><label>Quem cuida dos anúncios hoje</label><input data-c="quem_anuncia" placeholder="Eu mesma, agência, ninguém..."></div>
+        <div><label>Tem Google Ads?</label><select data-c="google_ads"><option value="">Selecione</option><option>Tenho e uso</option><option>Tenho, mas não uso</option><option>Não tenho</option><option>Não sei</option></select></div>
+        <div><label>WhatsApp Business na recepção?</label><select data-c="whatsapp_business"><option value="">Selecione</option><option>Sim</option><option>Não</option><option>Não sei</option></select></div>
+        <div><label>Verba que pretende investir por mês (R$)</label><input data-c="verba_pretendida" inputmode="decimal"></div>
+        <div class="full"><label>Observações sobre redes e anúncios</label><textarea data-c="obs_redes" placeholder="O que já funcionou, o que não funcionou, campanhas que você lembra..."></textarea></div>
+      </div>
+    </section>
+
+    <!-- MATERIAIS -->
+    <section class="card" data-p="materiais" hidden>
+      <h2>Envie seus materiais</h2>
+      <div class="sub">Os arquivos vão para uma pasta do Google Drive só da Endorfit. Clique em <b>Abrir pasta</b>, arraste os arquivos e depois marque <b>Já enviei</b>.</div>
+      <div class="aviso">📌 Se o Drive pedir acesso, toque em <b>Solicitar acesso</b>: o Nelson libera a pasta para o seu e-mail.</div>
+      <div id="lista-materiais"></div>
+    </section>
+
+    <!-- REUNIÕES E TAREFAS -->
+    <section data-p="reunioes" hidden>
+      <div class="card">
+        <h2>Suas tarefas</h2>
+        <div class="sub">O que combinamos nas reuniões. Marque quando concluir.</div>
+        <div id="lista-tarefas"></div>
+      </div>
+      <div class="card">
+        <h2>Resumo das reuniões</h2>
+        <div class="sub">Os principais pontos de cada encontro, para consultar quando quiser.</div>
+        <div id="lista-reunioes"></div>
+      </div>
+      <div class="card admin" id="painel-admin" hidden>
+        <h2>➕ Lançar reunião e tarefas (só o admin vê)</h2>
+        <div class="grid">
+          <div><label>Data da reunião</label><input id="r-data" type="date"></div>
+          <div><label>Título</label><input id="r-titulo" placeholder="Reunião 1 · Diagnóstico"></div>
+          <div class="full"><label>Resumo</label><textarea id="r-resumo" style="min-height:140px" placeholder="Cole aqui o resumo da transcrição"></textarea></div>
+          <div class="full"><label>Tarefas (uma por linha; prazo opcional no fim, depois de "|")</label><textarea id="r-tarefas" placeholder="Enviar a tabela de planos | 2026-11-15&#10;Liberar acesso de parceiro no Gerenciador de Anúncios"></textarea></div>
+        </div>
+        <div class="linha-btn"><button class="btn" onclick="lancarReuniao()">Salvar reunião e tarefas</button></div>
+      </div>
+      <div class="card admin" id="painel-cadastro" hidden>
+        <h2>📋 Cadastro preenchido (só o admin vê)</h2>
+        <div class="sub">Copie para usar no contrato, no briefing ou para me pedir o próximo passo.</div>
+        <div class="linha-btn" style="margin-top:0"><button class="btn claro" onclick="copiarCadastro()">📋 Copiar cadastro completo</button></div>
+      </div>
+    </section>
+
+    <div class="linha-btn" id="barra-envio">
+      <button class="btn verde" id="btn-enviar" onclick="enviarCadastro()">✅ Concluí o cadastro</button>
+      <span class="salvo" id="salvo">Tudo é salvo automaticamente.</span>
+    </div>
+    <div class="rod">Metodologia <img src="logo-gefit.png" alt="GeFit"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIGURAÇÃO ─────────────────────────────────────────────
+const SB_URL = 'https://irwvagffrguiljaxrzmd.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlyd3ZhZ2Zmcmd1aWxqYXhyem1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzNDk5ODUsImV4cCI6MjEwNDkyNTk4NX0.YAApyaH6iIHEua_89fgCUpMzgXRIcWb_vNRkBQAoq5A';
+const ACADEMIA_ID = '946bedd3-ff94-4dfa-a80d-51a4268dc9bc';
+const P = 'endorfit_';
+// Pastas do Google Drive da Endorfit (o acesso é liberado só para o e-mail da gestora)
+const MATERIAIS = [
+  {k:'logos', ic:'🎨', nome:'Logos e identidade visual', desc:'Logo em PNG (de preferência com fundo transparente), versões horizontal e ícone, manual de marca e as cores, se tiver.', url:'https://drive.google.com/drive/folders/13WTG2h-6dh2elHQKcbUDAHd3O92cAhlR'},
+  {k:'documentos', ic:'📄', nome:'Documentos e PDFs', desc:'Briefing, apresentações, relatórios, planilhas de resultados, contrato social (se for usar no contrato) e o que mais ajudar a entender a Endorfit.', url:'https://drive.google.com/drive/folders/1ZjKHT3xpCYOiNdG7MBV-0pFnk0QM7WMh'},
+  {k:'fotos', ic:'📸', nome:'Fotos e vídeos da academia', desc:'Fachada, recepção, salas, equipamentos, equipe e alunos treinando (com autorização). Serve para os anúncios.', url:'https://drive.google.com/drive/folders/1oY6gp_Na-vsEGDh36RSp1bZnUHR480Wt'},
+  {k:'planos', ic:'💰', nome:'Planos, preços e materiais de venda', desc:'Tabela de planos e preços, promoções, folders e o que a recepção usa para vender.', url:'https://drive.google.com/drive/folders/1JIr_CqwGRtOt3e3L_FZEVsRt7UodmSaj'}
+];
+// Campos que contam no progresso de cada aba
+const OBRIG = {
+  empresa:['nome_fantasia','razao_social','cnpj','endereco','cidade','whatsapp_recepcao','horario','modalidades'],
+  responsavel:['resp_nome','resp_cargo','resp_whatsapp','resp_email'],
+  redes:['instagram','tem_gerenciador','tem_business','investe_anuncios']
+};
+
+// ── ESTADO E BANCO ───────────────────────────────────────────
+let sessao=null, cad={dados:{},materiais:{},enviado_em:null}, timer=null;
+const H = {apikey:SB_KEY, Authorization:'Bearer '+SB_KEY, 'Content-Type':'application/json'};
+async function sb(path, opt={}){
+  const r = await fetch(SB_URL+'/rest/v1/'+path, {...opt, headers:{...H, ...(opt.headers||{})}});
+  if(!r.ok) throw new Error((await r.text()).slice(0,200));
+  const t = await r.text(); return t ? JSON.parse(t) : null;
+}
+const $ = id => document.getElementById(id);
+const esc = s => String(s??'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(m){const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',2200);}
+const isAdmin = () => sessao && sessao.role==='admin';
+
+// ── LOGIN ────────────────────────────────────────────────────
+async function entrar(){
+  const email=$('l-email').value.trim().toLowerCase(), senha=$('l-senha').value;
+  $('l-erro').textContent='';
+  if(!email||!senha){$('l-erro').textContent='Preencha e-mail e senha.';return;}
+  $('btn-entrar').disabled=true;
+  try{
+    const r=await sb(`${P}gestores?email=eq.${encodeURIComponent(email)}&senha_hash=eq.${encodeURIComponent(senha)}&ativo=eq.true&academia_id=eq.${ACADEMIA_ID}&select=id,nome,email,role`);
+    if(!r.length){$('l-erro').textContent='E-mail ou senha incorretos.';return;}
+    sessao=r[0]; sessionStorage.setItem('endorfit_sessao', JSON.stringify(sessao)); await abrirApp();
+  }catch(e){console.error(e);$('l-erro').textContent='Não foi possível entrar agora. Tente de novo em instantes.';}
+  finally{$('btn-entrar').disabled=false;}
+}
+function sair(){sessionStorage.removeItem('endorfit_sessao');location.reload();}
+$('l-senha').addEventListener('keydown',e=>{if(e.key==='Enter')entrar();});
+
+async function abrirApp(){
+  $('tela-login').hidden=true; $('tela-app').hidden=false;
+  $('quem').textContent=sessao.nome||sessao.email;
+  const primeiro=(sessao.nome||'').trim().split(/\s+/)[0];
+  $('ola').textContent=isAdmin()?'Painel do projeto Endorfit':`Bem-vinda, ${primeiro}!`;
+  $('painel-admin').hidden=!isAdmin(); $('painel-cadastro').hidden=!isAdmin();
+  if(isAdmin()){document.querySelector('.hero p').textContent='Acompanhe o cadastro e os materiais da Endorfit e lance os resumos das reuniões e as tarefas. O que você lança aparece na hora para a gestora.';document.querySelector('[data-p="reunioes"] .card h2').textContent='Tarefas da Endorfit';}
+  const r=await sb(`${P}onboarding?academia_id=eq.${ACADEMIA_ID}&select=*`);
+  if(r.length) cad={dados:r[0].dados||{},materiais:r[0].materiais||{},enviado_em:r[0].enviado_em};
+  preencher(); renderMateriais(); atualizarProgresso(); carregarReunioes();
+}
+
+// ── FORMULÁRIO ───────────────────────────────────────────────
+function preencher(){
+  document.querySelectorAll('[data-c]').forEach(el=>{el.value=cad.dados[el.dataset.c]||'';el.addEventListener('input',mudou);el.addEventListener('change',mudou);});
+  validarCNPJ();
+}
+function mudou(e){cad.dados[e.target.dataset.c]=e.target.value.trim();atualizarProgresso();$('salvo').textContent='Salvando...';clearTimeout(timer);timer=setTimeout(salvar,800);}
+async function salvar(extra={}){
+  try{
+    await sb(`${P}onboarding?on_conflict=academia_id`,{method:'POST',headers:{Prefer:'resolution=merge-duplicates'},
+      body:JSON.stringify({academia_id:ACADEMIA_ID,dados:cad.dados,materiais:cad.materiais,atualizado_em:new Date().toISOString(),...extra})});
+    $('salvo').textContent='✓ Salvo às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  }catch(e){console.error(e);$('salvo').textContent='⚠️ Não salvou. Confira a internet; vamos tentar de novo.';clearTimeout(timer);timer=setTimeout(salvar,5000);}
+}
+function mascaraCNPJ(el){
+  let v=el.value.replace(/\D/g,'').slice(0,14);
+  el.value=v.replace(/^(\d{2})(\d)/,'$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/,'$1.$2.$3').replace(/\.(\d{3})(\d)/,'.$1/$2').replace(/(\d{4})(\d)/,'$1-$2');
+  validarCNPJ();
+}
+function cnpjValido(c){
+  c=c.replace(/\D/g,''); if(c.length!==14||/^(\d)\1+$/.test(c)) return false;
+  const dv=n=>{let s=0,p=n-7;for(let i=0;i<n;i++){s+=+c[i]*p--;if(p<2)p=9;}const r=s%11;return r<2?0:11-r;};
+  return dv(12)==+c[12]&&dv(13)==+c[13];
+}
+function validarCNPJ(){
+  const el=document.querySelector('[data-c="cnpj"]'),d=$('cnpj-dica');if(!el)return;
+  const n=el.value.replace(/\D/g,'');
+  d.textContent=!n?'':n.length<14?'':cnpjValido(n)?'✓ CNPJ válido':'⚠️ Confira o CNPJ: algum número parece errado.';
+  d.style.color=n.length===14&&!cnpjValido(n)?'var(--er)':'var(--ok)';
+}
+
+// ── PROGRESSO E ABAS ─────────────────────────────────────────
+function pctAba(a){
+  if(a==='materiais'){return MATERIAIS.filter(m=>cad.materiais[m.k]).length/MATERIAIS.length;}
+  const c=OBRIG[a]; return c.filter(k=>(cad.dados[k]||'').trim()).length/c.length;
+}
+function atualizarProgresso(){
+  const abas=['empresa','responsavel','redes','materiais'];
+  const total=abas.reduce((s,a)=>s+pctAba(a),0)/abas.length, pct=Math.round(total*100);
+  $('prog-barra').style.width=pct+'%'; $('prog-txt').textContent=pct+'%';
+  document.querySelectorAll('.tab').forEach(t=>{const a=t.dataset.t;const ok=abas.includes(a)&&pctAba(a)>=1;
+    t.innerHTML=t.innerHTML.replace(/<span class="ok">.*?<\/span>/,'')+(ok?'<span class="ok">✓</span>':'');});
+  $('btn-enviar').textContent=cad.enviado_em?'✅ Cadastro enviado · atualizar':'✅ Concluí o cadastro';
+}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===t));
+  document.querySelectorAll('[data-p]').forEach(p=>p.hidden=p.dataset.p!==t.dataset.t);
+  $('barra-envio').hidden=t.dataset.t==='reunioes';
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+
+// ── MATERIAIS ────────────────────────────────────────────────
+function renderMateriais(){
+  $('lista-materiais').innerHTML=MATERIAIS.map(m=>`
+    <div class="mat"><div class="ic">${m.ic}</div><div class="tx"><b>${m.nome}</b><span>${m.desc}</span></div>
+      <div class="acoes"><a href="${m.url}" target="_blank" rel="noopener">📂 Abrir pasta</a>
+      <label class="chk"><input type="checkbox" data-m="${m.k}" ${cad.materiais[m.k]?'checked':''}> Já enviei</label></div></div>`).join('');
+  document.querySelectorAll('[data-m]').forEach(c=>c.addEventListener('change',()=>{cad.materiais[c.dataset.m]=c.checked?new Date().toISOString():null;atualizarProgresso();salvar();}));
+}
+
+async function enviarCadastro(){
+  const falta=['empresa','responsavel','redes'].filter(a=>pctAba(a)<1);
+  if(falta.length&&!confirm('Ainda faltam alguns campos principais. Quer enviar assim mesmo? Você pode completar depois.'))return;
+  cad.enviado_em=new Date().toISOString(); await salvar({enviado_em:cad.enviado_em}); atualizarProgresso();
+  toast('Cadastro enviado! O Nelson já recebe as informações.');
+}
+
+// ── REUNIÕES E TAREFAS ───────────────────────────────────────
+const soData = d => String(d||'').slice(0,10);
+const fmtData = d => d ? new Date(soData(d)+'T00:00:00').toLocaleDateString('pt-BR') : '';
+async function carregarReunioes(){
+  try{
+    const [reus,tars]=await Promise.all([
+      sb(`${P}reunioes?academia_id=eq.${ACADEMIA_ID}&order=data.desc,created_at.desc`),
+      sb(`${P}tarefas?academia_id=eq.${ACADEMIA_ID}&order=feita.asc,prazo.asc.nullslast,created_at.asc`)]);
+    const hoje=new Date();hoje.setHours(0,0,0,0);
+    $('lista-tarefas').innerHTML=tars.length?tars.map(t=>{
+      const atr=!t.feita&&t.prazo&&new Date(soData(t.prazo)+'T00:00:00')<hoje;
+      const tag=t.feita?'<span class="tag ok">concluída</span>':atr?`<span class="tag atr">atrasada · ${fmtData(t.prazo)}</span>`:t.prazo?`<span class="tag pz">até ${fmtData(t.prazo)}</span>`:'';
+      return `<div class="tar ${t.feita?'feita':''}"><input type="checkbox" ${t.feita?'checked':''} onchange="marcarTarefa('${t.id}',this.checked)"><div class="t"><b>${esc(t.titulo)}</b>${tag}${t.detalhe?`<span>${esc(t.detalhe)}</span>`:''}</div></div>`;
+    }).join(''):'<div class="vazio">Nenhuma tarefa por enquanto. Elas aparecem aqui depois de cada reunião.</div>';
+    $('lista-reunioes').innerHTML=reus.length?reus.map(r=>`<div class="reu"><div class="dt">${fmtData(r.data)}</div><b>${esc(r.titulo||'Reunião')}</b><p>${esc(r.resumo||'')}</p></div>`).join(''):'<div class="vazio">Os resumos das nossas reuniões vão aparecer aqui.</div>';
+  }catch(e){console.error(e);$('lista-tarefas').innerHTML='<div class="vazio">Não foi possível carregar agora.</div>';}
+}
+async function marcarTarefa(id,feita){
+  try{await sb(`${P}tarefas?id=eq.${id}`,{method:'PATCH',body:JSON.stringify({feita,feita_em:feita?new Date().toISOString():null})});toast(feita?'Tarefa concluída! 💪':'Tarefa reaberta');carregarReunioes();}
+  catch(e){console.error(e);toast('Não foi possível salvar. Tente de novo.');}
+}
+async function lancarReuniao(){
+  if(!isAdmin())return;
+  const data=$('r-data').value||new Date().toISOString().slice(0,10), titulo=$('r-titulo').value.trim(), resumo=$('r-resumo').value.trim();
+  const linhas=$('r-tarefas').value.split('\n').map(l=>l.trim()).filter(Boolean);
+  if(!titulo&&!resumo&&!linhas.length){toast('Preencha o resumo ou as tarefas.');return;}
+  try{
+    let reuId=null;
+    if(titulo||resumo){const r=await sb(`${P}reunioes`,{method:'POST',headers:{Prefer:'return=representation'},body:JSON.stringify({academia_id:ACADEMIA_ID,data,titulo:titulo||'Reunião',resumo})});reuId=r[0].id;}
+    if(linhas.length) await sb(`${P}tarefas`,{method:'POST',body:JSON.stringify(linhas.map(l=>{const [t,p]=l.split('|').map(x=>x.trim());return {academia_id:ACADEMIA_ID,reuniao_id:reuId,titulo:t,prazo:/^\d{4}-\d{2}-\d{2}$/.test(p||'')?p:null};}))});
+    ['r-titulo','r-resumo','r-tarefas'].forEach(i=>$(i).value='');toast('Reunião e tarefas salvas.');carregarReunioes();
+  }catch(e){console.error(e);toast('Erro ao salvar: '+e.message.slice(0,80));}
+}
+function copiarCadastro(){
+  const rot={};document.querySelectorAll('[data-c]').forEach(el=>{rot[el.dataset.c]=el.closest('div').querySelector('label').textContent;});
+  const linhas=Object.keys(rot).filter(k=>cad.dados[k]).map(k=>`${rot[k]}: ${cad.dados[k]}`);
+  linhas.push('','Materiais enviados: '+(MATERIAIS.filter(m=>cad.materiais[m.k]).map(m=>m.nome).join(', ')||'nenhum ainda'));
+  const t='CADASTRO ENDORFIT\n\n'+linhas.join('\n');
+  navigator.clipboard?navigator.clipboard.writeText(t).then(()=>toast('Cadastro copiado.')).catch(()=>prompt('Copie:',t)):prompt('Copie:',t);
+}
+
+// ── INÍCIO ───────────────────────────────────────────────────
+(async()=>{
+  const raw=sessionStorage.getItem('endorfit_sessao');
+  if(raw){try{const s=JSON.parse(raw);const r=await sb(`${P}gestores?id=eq.${encodeURIComponent(s.id)}&ativo=eq.true&select=id,nome,email,role`);if(r.length){sessao=r[0];await abrirApp();return;}}catch(e){console.error(e);}}
+  $('tela-login').hidden=false;
+})();
+</script>
+</body>
+</html>
