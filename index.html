@@ -238,6 +238,8 @@ const SB_URL = 'https://irwvagffrguiljaxrzmd.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlyd3ZhZ2Zmcmd1aWxqYXhyem1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzNDk5ODUsImV4cCI6MjEwNDkyNTk4NX0.YAApyaH6iIHEua_89fgCUpMzgXRIcWb_vNRkBQAoq5A';
 const ACADEMIA_ID = '946bedd3-ff94-4dfa-a80d-51a4268dc9bc';
 const P = 'endorfit_';
+// Aba "Reuniões e tarefas": por enquanto só o admin vê. Para liberar para a gestora, troque para true.
+const REUNIOES_PARA_GESTORA = false;
 // Pastas do Google Drive da Endorfit (o acesso é liberado só para o e-mail da gestora)
 const MATERIAIS = [
   {k:'logos', ic:'🎨', nome:'Logos e identidade visual', desc:'Logo em PNG (de preferência com fundo transparente), versões horizontal e ícone, manual de marca e as cores, se tiver.', url:'https://drive.google.com/drive/folders/13WTG2h-6dh2elHQKcbUDAHd3O92cAhlR'},
@@ -287,6 +289,8 @@ async function abrirApp(){
   const primeiro=(sessao.nome||'').trim().split(/\s+/)[0];
   $('ola').textContent=isAdmin()?'Painel do projeto Endorfit':`Bem-vinda, ${primeiro}!`;
   $('painel-admin').hidden=!isAdmin(); $('painel-cadastro').hidden=!isAdmin();
+  document.querySelector('.tab[data-t="reunioes"]').hidden=!(isAdmin()||REUNIOES_PARA_GESTORA);
+  if(!(isAdmin()||REUNIOES_PARA_GESTORA)) document.querySelector('.hero p').textContent='Aqui começa a construção da sua plataforma. Preencha os dados da Endorfit e envie seus materiais. Tudo fica salvo automaticamente, então pode fazer aos poucos.';
   if(isAdmin()){document.querySelector('.hero p').textContent='Acompanhe o cadastro e os materiais da Endorfit e lance os resumos das reuniões e as tarefas. O que você lança aparece na hora para a gestora.';document.querySelector('[data-p="reunioes"] .card h2').textContent='Tarefas da Endorfit';}
   const r=await sb(`${P}onboarding?academia_id=eq.${ACADEMIA_ID}&select=*`);
   if(r.length) cad={dados:r[0].dados||{},materiais:r[0].materiais||{},enviado_em:r[0].enviado_em};
