@@ -1,0 +1,20 @@
+/* ===== Identidade Endorfit (Metodologia GeFit): verde #48D9B5 · cinza #4E4D4D · branco · verde para texto #137A64 ===== */
+:root{
+  --gf-lime:#48D9B5; --gf-lime-2:#8FEAD3; --gf-blue:#137A64; --gf-blue-2:#2F6BFF; --gf-white:#FFFFFF;
+  --orange:#48D9B5; --orange2:#8FEAD3; --or:#48D9B5;
+  --blue:#6F9BFF;
+}
+/* logo oficial (azul + verde-limão) sempre sobre placa branca para ter contraste no tema escuro */
+img.gf-logo{background:none;border-radius:0;padding:0;object-fit:contain;display:inline-block;vertical-align:middle;width:auto;box-sizing:content-box}
+img.gf-logo.gf-grande{height:44px}
+
+/* ===== Dentro do Hub: o menu lateral, o logo e o "Sair" já são do Hub ===== */
+html.gf-embed img.gf-logo,
+html.gf-embed [onclick*="ogout"],
+html.gf-embed [onclick*="Logout"],
+html.gf-embed .btn-sair{display:none !important}
+
+/* logo nas telas de login e topo dos modulos: placa branca para contraste no tema escuro */
+.topbar-logo-img,.auth-logo-img{background:none;border-radius:0;padding:0;box-sizing:content-box}
+.auth-logo-img{height:64px !important;width:auto !important;margin:0 auto 6px !important}
+.topbar-logo-img{height:30px !important;width:auto !important}

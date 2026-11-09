@@ -108,6 +108,7 @@ textarea{min-height:84px;resize:vertical}
     <div class="marca">ENDORFIT<small>Projeto piloto · Metodologia GeFit</small></div>
     <div class="esp"></div>
     <div class="quem" id="quem"></div>
+    <button id="btn-hub" hidden onclick="location.href='hub.html'">Abrir o Hub</button>
     <button onclick="sair()">Sair</button>
   </div>
   <div class="wrap">
@@ -289,6 +290,7 @@ async function abrirApp(){
   const primeiro=(sessao.nome||'').trim().split(/\s+/)[0];
   $('ola').textContent=isAdmin()?'Painel do projeto Endorfit':`Bem-vinda, ${primeiro}!`;
   $('painel-admin').hidden=!isAdmin(); $('painel-cadastro').hidden=!isAdmin();
+  $('btn-hub').hidden=!isAdmin(); // Hub da academia: por enquanto só o admin vê o botão
   document.querySelector('.tab[data-t="reunioes"]').hidden=!(isAdmin()||REUNIOES_PARA_GESTORA);
   if(!(isAdmin()||REUNIOES_PARA_GESTORA)) document.querySelector('.hero p').textContent='Aqui começa a construção da sua plataforma. Preencha os dados da Endorfit e envie seus materiais. Tudo fica salvo automaticamente, então pode fazer aos poucos.';
   if(isAdmin()){document.querySelector('.hero p').textContent='Acompanhe o cadastro e os materiais da Endorfit e lance os resumos das reuniões e as tarefas. O que você lança aparece na hora para a gestora.';document.querySelector('[data-p="reunioes"] .card h2').textContent='Tarefas da Endorfit';}
